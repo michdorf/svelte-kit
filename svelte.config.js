@@ -1,6 +1,6 @@
 import adapter from '@sveltejs/adapter-static';
 import preprocess from 'svelte-preprocess';
-const dev = false; // process.env.NODE_ENV === 'development';
+const dev = process.env.NODE_ENV === 'development';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -17,8 +17,17 @@ const config = {
 		appDir: 'internal',
 
 		adapter: adapter({
-			fallback: '200.html'
-		})
+			// default options are shown
+			pages: 'build',
+			assets: 'build',
+			fallback: null,
+			precompress: false
+		}),
+
+		prerender: {
+			// This can be false if you're using a fallback (i.e. SPA mode)
+			default: true
+		}
 	}
 };
 
