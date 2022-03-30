@@ -1,5 +1,6 @@
-import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-static';
 import preprocess from 'svelte-preprocess';
+const dev = false; // process.env.NODE_ENV === 'development';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -8,7 +9,16 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
-		adapter: adapter()
+		paths: {
+			base: dev ? '' : '/your-repo-name',
+		},
+		// If you are not using a .nojekyll file, change your appDir to something not starting with an underscore.
+		// For example, instead of '_app', use 'app_', 'internal', etc.
+		appDir: 'internal',
+
+		adapter: adapter({
+			fallback: '200.html'
+		})
 	}
 };
 
